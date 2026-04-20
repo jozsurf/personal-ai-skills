@@ -1,0 +1,15 @@
+{
+  "name": "personal-ai-skills",
+  "version": "1.0.0",
+  "description": "Personal AI skills and agents for Joseph Poh",
+  "owner": {
+    "name": "jozsurf"
+  },
+  "plugins": [
+    {
+      "name": "personal",
+      "description": "Personal productivity skills and agents",
+      "source": "./plugins/personal"
+    }
+  ]
+}
