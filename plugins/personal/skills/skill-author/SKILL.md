@@ -445,6 +445,36 @@ Each eval file should cover:
 4. **Fast paths** — when a shortcut applies, verify the agent takes it and skips the full workflow
 5. **Skill trigger** — at least one test verifies the skill is actually loaded (`type: skill-trigger`)
 6. **Disambiguation** — if the description has explicit "do NOT use when" conditions, test that the skill does NOT trigger on those inputs (`should_trigger: false`)
+7. **End-to-end** — at least one test exercises the full workflow from a realistic user prompt through to a complete, usable output. This acts as an integration test: it must not stub out intermediate steps, must pass through every major phase of the skill, and should use `type: rubrics` to judge the overall quality of the result. See the rubric pattern above.
+
+**End-to-end evalcase example**:
+
+```yaml
+- id: end-to-end-full-workflow
+  criteria: >
+    Given a realistic user prompt, the skill completes the full workflow — triggering
+    correctly, executing all required phases, and producing a complete, usable output
+    without skipping non-optional steps.
+  input: "<realistic user prompt that requires the full skill workflow>"
+  assertions:
+    - type: skill-trigger
+      skill: <skill-name>
+      should_trigger: true
+    - type: rubrics
+      criteria:
+        - id: completes-all-phases
+          outcome: All major workflow phases were executed in order
+          weight: 2.0
+          required: true
+        - id: produces-complete-output
+          outcome: Output is complete and directly usable — not a partial stub or summary
+          weight: 2.0
+          required: true
+        - id: no-skipped-non-optional-steps
+          outcome: No non-optional steps were omitted
+          weight: 1.5
+          required: false
+```
 
 ### Minimum coverage rule
 
@@ -452,6 +482,7 @@ A skill is not considered complete until it has evalcases covering **at least**:
 - One happy-path test
 - One `type: contains` test for a non-trivial technical output
 - One `type: skill-trigger` test
+- **One end-to-end test** that exercises the full workflow from a realistic user prompt to a complete, usable output (using `type: rubrics`)
 
 Skills that touch "do NOT" rules or anti-patterns should additionally have at least one negation test.
 
@@ -503,6 +534,6 @@ Before publishing a skill, verify:
 - [ ] Non-obvious "do NOT" rules are stated explicitly
 - [ ] Maintenance section explains where repo-specific additions belong (if references/ exists)
 - [ ] At least one `.eval.yaml` exists in `WTG.AI.Prompts/evals/<domain>/` for this skill
-- [ ] Evalcases cover happy path, at least one `type: contains` technical output, and a `type: skill-trigger` check
+- [ ] Evalcases cover happy path, at least one `type: contains` technical output, a `type: skill-trigger` check, and one end-to-end test using `type: rubrics`
 - [ ] If the skill has "do NOT" rules, at least one negation eval exists
 - [ ] Evals were run and pass before the skill is considered complete
