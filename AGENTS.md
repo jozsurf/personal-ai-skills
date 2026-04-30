@@ -5,6 +5,10 @@ ACTION: Invoke `cw-coding` skill FIRST, BEFORE any other skill or action.
 TRIGGER: Questions about how features/concepts work, finding implementations, exploring patterns, or understanding business logic (e.g., "how does X work", "understand Y", "where is Z implemented", "find examples of")
 ACTION: Invoke `code-research` skill FIRST to dispatch parallel search agents.
 
+## Rule: Workspace Bootstrap
+TRIGGER: Any request to start, begin, or resume work on a WI (e.g. "start work on WI...", "work on WI...", "resume WI...")
+ACTION: Delegate to the `wi-bootstrap` agent. Read `Dev-Workspaces/skills/wi-bootstrap/SKILL.md` before proceeding. Do NOT start coding until the worktree and workspace are set up.
+
 ## Rule: Post-Change Verification
 TRIGGER: Any code change
 ACTION: After making code changes, always:

@@ -34,10 +34,14 @@ The following repositories are part of this workspace:
 TRIGGER: File operations (read, search, modify)
 ACTION: Use the repository paths listed above, not assumptions
 
+## Rule: Workspace Bootstrap
+TRIGGER: Any request to start, begin, or resume work on a WI (e.g. "start work on WI...", "work on WI...", "resume WI...")
+ACTION: Read `../Dev-Workspaces/skills/wi-bootstrap/SKILL.md` and follow the workflow. Do NOT start coding until the worktree and workspace are set up.
+
 ## Rule: Always use a Dev Workspace For Code Changes
 
 TRIGGER: Any request that requires code changes (regardless of repository), unless the user explicitly instructs otherwise
-ACTION: First, check if there is already a Dev-Workspace configured for the branch to be worked on. If not, create or resolve a Dev-Workspace first by following ../Dev-Workspaces/AGENTS.md, then perform code changes in that workspace
+ACTION: First, check if there is already a Dev-Workspace configured for the branch to be worked on. If not, bootstrap one first using the wi-bootstrap workflow (`../Dev-Workspaces/skills/wi-bootstrap/SKILL.md`), then perform code changes in that workspace
 
 <!-- WORKSPACE-RULES:END -->
 
